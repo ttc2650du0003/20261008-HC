@@ -1,0 +1,364 @@
+@charset "UTF-8";
+@import "https://unpkg.com/ress/dist/ress.min.css";
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+/*===== レイアウトのためのCSS =====*/
+
+html,
+body {
+  /*高さを100%にして描画エリアをとる*/
+  height: 100%;
+}
+
+#wrapper {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #ffffa4;
+}
+
+h1 {
+  font-family: "Orbitron", sans-serif;
+  font-size: clamp(3rem, 3vw, 3rem);
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px #ffffa4;
+  text-shadow:
+    0 0 5px #ffffa4,
+    0 0 15px rgba(255, 255, 164, 0.8),
+    0 0 35px rgba(255, 220, 100, 0.5),
+    0 0 80px rgba(255, 200, 80, 0.25);
+  filter: brightness(1.1);
+  position: relative;
+  animation: glow 3s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    text-shadow:
+      0 0 5px #ffffa4,
+      0 0 15px rgba(255, 255, 164, 0.7),
+      0 0 35px rgba(255, 220, 100, 0.4);
+  }
+
+  to {
+    text-shadow:
+      0 0 10px #ffffa4,
+      0 0 30px rgba(255, 255, 164, 0.9),
+      0 0 60px rgba(255, 220, 100, 0.6),
+      0 0 100px rgba(255, 200, 80, 0.3);
+  }
+}
+
+/*===== particle.jsのエリア設定 =====*/
+
+#particles-js {
+  /*描画固定*/
+  position: fixed;
+  /*描画を一番下に*/
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  /*背景色*/
+  background:
+    radial-gradient(circle at 50% 50%,
+      #18245c 0%,
+      #0b1038 35%,
+      #050722 70%,
+      #01010d 100%);
+  overflow: hidden;
+}
+
+/* ===== 星空閃爍 ===== */
+
+#particles-js::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background-image:
+        radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 1.5px),
+        radial-gradient(circle, rgba(255,255,180,0.7) 1px, transparent 1.5px),
+        radial-gradient(circle, rgba(150,200,255,0.8) 1px, transparent 1.5px);
+
+    background-size:
+        180px 180px,
+        260px 260px,
+        340px 340px;
+
+    background-position:
+        20px 40px,
+        80px 120px,
+        150px 30px;
+
+    animation: stars 6s ease-in-out infinite alternate;
+
+    pointer-events: none;
+}
+
+@keyframes stars {
+    0% {
+        opacity: 0.25;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+
+    100% {
+        opacity: 0.3;
+    }
+}
+
+#particles-js::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background-image:
+        radial-gradient(circle, #ffffff 0px, transparent 2px),
+        radial-gradient(circle, #ffffc4 0px, transparent 2px),
+        radial-gradient(circle, #a8d8ff 0px, transparent 2px);
+
+    background-size:
+        230px 230px,
+        310px 310px,
+        420px 420px;
+
+    background-position:
+        100px 50px,
+        30px 180px,
+        200px 100px;
+
+    opacity: 0.4;
+
+    animation: twinkle 4s ease-in-out infinite;
+
+    pointer-events: none;
+}
+
+@keyframes twinkle {
+    0%, 100% {
+        opacity: 0.15;
+        filter: blur(0px);
+    }
+
+    50% {
+        opacity: 0.8;
+        filter: blur(0.4px);
+    }
+}
+
+#star-field {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.star {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 6px 2px rgba(255, 255, 255, 0.9),
+        0 0 18px 5px rgba(255, 255, 180, 0.8),
+        0 0 35px 8px rgba(150, 200, 255, 0.4);
+
+    opacity: 0;
+
+    transform: scale(0);
+}
+
+/* 橫向星芒 */
+.star::before {
+    content: "";
+    position: absolute;
+
+    width: 70px;
+    height: 2px;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.9),
+        transparent
+    );
+
+    filter: blur(1px);
+}
+
+/* 垂直星芒 */
+.star::after {
+    content: "";
+    position: absolute;
+
+    width: 2px;
+    height: 70px;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    background: linear-gradient(
+        180deg,
+        transparent,
+        rgba(255, 255, 255, 0.9),
+        transparent
+    );
+
+    filter: blur(1px);
+}
+
+.star.twinkle {
+    animation: starTwinkle 4s ease-in-out infinite;
+}
+
+@keyframes starTwinkle {
+
+    /* 消失 */
+    0% {
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    /* 開始出現 */
+    35% {
+        opacity: 0.15;
+        transform: scale(0.5);
+    }
+
+    /* ⭐ 突然爆亮 */
+    45% {
+        opacity: 1;
+        transform: scale(2.5);
+        filter: brightness(2);
+    }
+
+    /* 保持一下 */
+    52% {
+        opacity: 0.8;
+        transform: scale(1.2);
+    }
+
+    /* 消失 */
+    65% {
+        opacity: 0;
+        transform: scale(0.2);
+    }
+
+    /* 長時間保持暗 */
+    100% {
+        opacity: 0;
+        transform: scale(0);
+    }
+}
+
+/* ===== 流星 ===== */
+
+.meteor {
+    position: fixed;
+    width: 60px;
+    height: 1.5px;
+    z-index: 20;
+    pointer-events: none;
+    opacity: 0;
+
+    /* 流星本體：右邊亮、左邊淡 */
+    background: linear-gradient(
+        to right,
+        transparent 0%,
+        rgba(255,255,255,0.15) 45%,
+        rgba(255,255,255,0.5) 80%,
+        #ffffff 100%
+    );
+
+    border-radius: 999px;
+
+    box-shadow:
+        0 0 4px rgba(255,255,255,0.8),
+        0 0 10px rgba(150,200,255,0.6);
+
+    /* 右上 → 左下 */
+    transform: rotate(135deg);
+}
+
+
+/* 流星頭 */
+.meteor::after {
+    content: "";
+
+    position: absolute;
+    right: 0;
+    top: 50%;
+
+    width: 5px;
+    height: 5px;
+
+    transform: translate(50%, -50%);
+
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 5px #ffffff,
+        0 0 12px #ffffff,
+        0 0 20px #a8d8ff;
+}
+
+
+.meteor.shooting {
+    animation: meteorShoot 2.8s ease-out forwards;
+}
+
+
+@keyframes meteorShoot {
+
+    0% {
+        opacity: 0;
+        transform:
+            translate(0, 0)
+            rotate(135deg);
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    75% {
+        opacity: 1;
+        transform:
+            translate(-220px, 220px)
+            rotate(135deg);
+    }
+
+    100% {
+        opacity: 0;
+        transform:
+            translate(-280px, 280px)
+            rotate(135deg);
+    }
+}
